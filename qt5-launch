@@ -38,13 +38,26 @@ export LD_LIBRARY_PATH=$SNAP/usr/lib/$ARCH/mesa-egl:$LD_LIBRARY_PATH
 # XDG Config
 export XDG_CONFIG_DIRS=$SNAP/etc/xdg:$XDG_CONFIG_DIRS
 export XDG_CONFIG_DIRS=$SNAP/usr/xdg:$XDG_CONFIG_DIRS
+
 # Note: this doesn't seem to work, QML's LocalStorage either ignores
 # or fails to use $SNAP_USER_DATA if defined here
 export XDG_DATA_DIRS=$SNAP_USER_DATA:$XDG_DATA_DIRS
 export XDG_DATA_DIRS=$SNAP/usr/share:$XDG_DATA_DIRS
 
-# Not good, needed for fontconfig
-export XDG_DATA_HOME=$SNAP/usr/share
+# Set XDG_DATA_HOME to local path, dependent on snap version
+export XDG_DATA_HOME=$SNAP_USER_DATA/.local-$SNAP_VERSION/share
+export XDG_DATA_DIRS=$XDG_DATA_HOME:$XDG_DATA_DIRS
+mkdir -p $XDG_DATA_HOME
+
+# Set cache folder to local path, dependent on snap version
+export XDG_CACHE_HOME=$SNAP_USER_DATA/.cache-$SNAP_VERSION
+mkdir -p $XDG_CACHE_HOME
+
+# Not good, needed for fontconfig and themes
+ln -sf $SNAP/usr/share/{fontconfig,fonts,fonts-*,themes} $XDG_DATA_HOME
+
+## Not good, needed for fontconfig
+#export XDG_DATA_HOME=$SNAP/usr/share
 
 # Font Config
 export FONTCONFIG_PATH=$SNAP/etc/fonts/config.d
