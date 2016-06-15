@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 case "$SNAP_ARCH" in
 	"amd64") ARCH='x86_64-linux-gnu'
 	;;
