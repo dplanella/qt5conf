@@ -111,6 +111,14 @@ fi
 export XDG_RUNTIME_DIR=$SNAP_USER_DATA/.run-$SNAP_VERSION
 mkdir -p $XDG_RUNTIME_DIR
 
+# Gdk-pixbuf loaders
+# Note: You need to stage libgdk-pixbuf2.0-0
+export GDK_PIXBUF_MODULE_FILE=$XDG_CACHE_HOME/gdk-pixbuf-loaders.cache
+export GDK_PIXBUF_MODULEDIR=$SNAP/usr/lib/$ARCH/gdk-pixbuf-2.0/2.10.0/loaders
+if [ ! -e $GDK_PIXBUF_MODULE_FILE ]; then
+  $SNAP/usr/lib/$ARCH/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders > $GDK_PIXBUF_MODULE_FILE
+fi
+
 cd $SNAP
 exec "$@"
 
