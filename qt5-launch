@@ -107,6 +107,10 @@ if [ ! -d $GS_SCHEMA_DIR ]; then
   $SNAP/usr/lib/$ARCH/glib-2.0/glib-compile-schemas $GS_SCHEMA_DIR
 fi
 
+# Set runtime folder to local path, dependent on snap version
+export XDG_RUNTIME_DIR=$SNAP_USER_DATA/.run-$SNAP_VERSION
+mkdir -p $XDG_RUNTIME_DIR
+
 cd $SNAP
 exec "$@"
 
